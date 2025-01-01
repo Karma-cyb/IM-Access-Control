@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>User Detail</h1>
+<hr />
+{% from "includes/_formhelpers.html" import render_field %}
+
+<div>
+  {% if form %}
+  <form action="" method="POST" id="user_details">
+    {{ form.csrf_token }}
+
+    <div class="form-group">
+      <label for="{{ form.id.id }}">{{ form.id.label }}</label>
+      {{ form.id(readonly=True, class="form-control", id=form.id.id) }}
+      {% for error in form.id.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.name.id }}">{{ form.name.label }}</label>
+      {{ form.name(class="form-control", id=form.name.id) }}
+      {% for error in form.name.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </div>
+
+
+    <div class="form-group">
+      <label for="{{ form.username.id }}">{{ form.username.label }}</label>
+      {{ form.username(class="form-control", id=form.username.id) }}
+      {% for error in form.username.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </div>
+
+    <fieldset>
+      <legend>Permissions:</legend>
+
+      <div class="form-check">
+        <input type="radio" id="user_level_access" name="access_lvl" value="1" 
+          {% if form.access.data == 1 %} checked {% endif %} class="form-check-input">
+        <label for="user_level_access" class="form-check-label">User access</label>
+      </div>
+
+      <div class="form-check">
+        <input type="radio" id="admin_level_access" name="access_lvl" value="2" 
+          {% if form.access.data == 2 %} checked {% endif %} class="form-check-input">
+        <label for="admin_level_access" class="form-check-label">Admin access</label>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="form-actions mt-4">
+    <button type="submit" form="user_details" formmethod="POST" 
+      formaction="{{ url_for('update_user', user_id=form.id.data) }}" class="btn btn-primary">
+      Update User
+    </button>
+
+    <button type="submit" form="user_details" formmethod="POST" 
+      formaction="{{ url_for('delete_user', user_id=form.id.data) }}" 
+      class="btn btn-danger" 
+      onclick="return confirm('Are you sure you want to delete this user?');">
+      Delete User
+    </button>
+  </div>
+  {% else %}
+  <p>No user details available. Please try again later.</p>
+  {% endif %}
+</div>
+{% endblock %}

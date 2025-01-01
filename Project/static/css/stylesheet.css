@@ -1,0 +1,13 @@
+body {
+  background-color: lightblue;
+}
+
+.custom-red-button {
+  background-color: red;
+  color: white;
+  border: 1px solid darkred;
+}
+
+.custom-red-button:hover {
+  background-color: darkred;
+}
